@@ -7,6 +7,8 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
 
 / {
         keymap {
@@ -17,7 +19,7 @@
 // -----------------------------------------------------------------------------------------
 // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
 // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
+// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  |      |
 //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
                         bindings = <
    &kp ESC   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
@@ -30,14 +32,14 @@
                         display-name = "Lower Layer";
 // -----------------------------------------------------------------------------------------
 // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BSPC |
-// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |  -  |  =   |
-// | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
+// | BTCLR| BT1 | BT2 | USB | BT  | BT3 |   | LFT | DWN |  UP | RGT |  -  |  =   |
+// | SHFT | BTLD| RST |     |     |     |   |     |     |     |     | BTLD| RST  |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
-   &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp DEL
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp MINUS &kp EQUAL
-   &kp LSHFT  &trans       &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
-                                    &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp RALT
+   &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5            &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp DEL
+   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &out OUT_USB &out OUT_BLE &bt BT_SEL 2      &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp MINUS &kp EQUAL
+   &kp LSHFT  &bootloader  &sys_reset    &trans       &trans       &trans           &trans   &kp PAGE_DOWN  &kp PAGE_UP &trans  &bootloader  &sys_reset
+                  &kp LGUI &mo 1 &kp SPACE   &mt LALT RET &mo 2 &kp LCTRL
                         >;
                 };
 
@@ -50,10 +52,93 @@
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
    &kp  TAB  &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
-   &kp LCTRL &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT &kp BSLH &kp GRAVE
+   &kp LCTRL &trans   &trans &trans   &trans   &trans      &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT &kp BSLH &kp GRAVE
    &kp LSHFT &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC  &kp RBRC &kp PIPE &kp TILDE
-                             &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp RALT
+                  &kp LGUI &mo 1 &kp SPACE   &mt LALT RET &mo 2 &kp LCTRL
                         >;
                 };
+        };
+	combos {
+        	compatible = "zmk,combos";
+        	combo_tilde {
+            		timeout-ms = <50>;
+            		key-positions = <0 12>;
+            		bindings = <&kp TILDE>;
+        	};
+        	combo_grave {
+            		timeout-ms = <50>;
+            		key-positions = <12 18>;
+            		bindings = <&kp GRAVE>;
+        	};
+        	combo_plus {
+            		timeout-ms = <50>;
+            		key-positions = <2 3>;
+            		bindings = <&kp PLUS>;
+        	};
+        	combo_minus {
+            		timeout-ms = <50>;
+            		key-positions = <3 4>;
+            		bindings = <&kp MINUS>;
+        	};
+        	combo_underscore {
+            		timeout-ms = <50>;
+            		key-positions = <7 8>;
+            		bindings = <&kp UNDER>;
+        	};
+        	combo_quotes {
+            		timeout-ms = <50>;
+            		key-positions = <15 16>;
+            		bindings = <&kp DQT>;
+        	};
+        	combo_o_brace {
+            		timeout-ms = <50>;
+            		key-positions = <16 17>;
+            		bindings = <&kp LEFT_BRACE>;
+        	};
+        	combo_c_brace {
+            		timeout-ms = <50>;
+            		key-positions = <18 19>;
+            		bindings = <&kp RIGHT_BRACE>;
+        	};
+        	combo_o_bracket {
+            		timeout-ms = <50>;
+            		key-positions = <28 29>;
+            		bindings = <&kp LEFT_BRACKET>;
+        	};
+        	combo_c_bracket {
+            		timeout-ms = <50>;
+            		key-positions = <30 31>;
+            		bindings = <&kp RIGHT_BRACKET>;
+        	};
+        	combo_pipe {
+            		timeout-ms = <50>;
+            		key-positions = <8 9>;
+            		bindings = <&kp PIPE>;
+        	};
+        	combo_single_quote {
+            		timeout-ms = <50>;
+            		key-positions = <19 20>;
+            		bindings = <&kp SQT>;
+        	};
+        	combo_ampersand {
+            		timeout-ms = <50>;
+            		key-positions = <14 15>;
+            		bindings = <&kp AMPS>;
+        	};
+        	combo_asterix {
+            		timeout-ms = <50>;
+            		key-positions = <13 14>;
+            		bindings = <&kp STAR>;
+        	};
+        	combo_o_parenthesis {
+            		timeout-ms = <50>;
+            		key-positions = <4 5>;
+            		bindings = <&kp LEFT_PARENTHESIS>;
+        	};
+        	combo_c_parenthesis {
+            		timeout-ms = <50>;
+            		key-positions = <6 7>;
+            		bindings = <&kp RIGHT_PARENTHESIS>;
+        	};
         };
 };
